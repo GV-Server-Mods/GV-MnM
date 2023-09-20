@@ -86,6 +86,9 @@ namespace AutoRepair
 
         public bool DoInventoriesContainMissingComponents(Dictionary<string, int> someMissingComponents, List<IMyInventory> someSourceInventories)
         {
+            if (someMissingComponents.Count == 0) {
+                return true;
+            }
             foreach (var inventory in someSourceInventories)
             {
                 inventory.GetItems(myTempItems);

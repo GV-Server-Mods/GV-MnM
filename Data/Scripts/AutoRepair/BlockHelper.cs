@@ -166,24 +166,26 @@ namespace AutoRepair
         }
         public int GetBlockBuildTime(IMySlimBlock block, ConstructType type)
         {
-//             if ( type == ConstructType.Repair)
-//             {
-//                 int time = BlockSourceBase.GetBlockBuildTime(block.BlockDefinition, WelderSpeed, IsBoosted);
-//                 float buildRatio = Math.Min(block.BuildLevelRatio, block.DamageRatio);
-//                 float timeModifier = Math.Clamp(1.0f - buildRatio, 0.0f, 1.0f);
-//                 time = Math.Max(1, (int)((float)time *  timeModifier));
-//                 return time;
-//             }
+             if ( type == ConstructType.Repair)
+             {
+                 int time = BlockSourceBase.GetBlockBuildTime(block.BlockDefinition, WelderSpeed, IsBoosted);
+                 float buildRatio = Math.Min(block.BuildLevelRatio, block.DamageRatio);
+                 float timeModifier = MathHelper.Clamp(1.0f - buildRatio, 0.0f, 1.0f);
+                 time = Math.Max(0, (int)((float)time *  timeModifier));
+                 return time;
+             }
             return BlockSourceBase.GetBlockBuildTime(block.BlockDefinition, WelderSpeed, IsBoosted);
         }
         public int GetBlockBuildTimeTotal()
         {
             int totalTime = 0;
+            int zeroTimeBlocks = 0;
             foreach (var block in myFoundBlocks)
             {
-                totalTime += GetBlockBuildTime(block.myBlock, block.myConstructType);
+                int time = GetBlockBuildTime(block.myBlock, block.myConstructType);
+                if (time == 0) { zeroTimeBlocks++; } else { totalTime += time; }
             }
-            return totalTime + Logic.ourConstructionDelaySeconds;
+            return totalTime + Logic.ourConstructionDelaySeconds + (int)Math.Ceiling((float)zeroTimeBlocks / (float)Session.Instance.config.zeroTimeBlocksPerPass);
 
             // Optimization here using Projector data, but ugly
             // Dictionary<MyDefinitionBase, int> remaining = projector.RemainingBlocksPerType;

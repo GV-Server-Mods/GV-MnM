@@ -20,6 +20,7 @@ namespace AutoRepair
         [ProtoMember(4)] [XmlElement("Base_Time_Multiplier")] public float baseAmount = 1.1f;
         [ProtoMember(5)] [XmlElement("Built_Percentage")] public float built;
         [ProtoMember(6)] [XmlElement("ContainerTag")] public string containerTag = "[mnm]";
+        [ProtoMember(7)] [XmlElement("Zero_Construction_Time_Blocks_Per_Pass")] public int zeroTimeBlocksPerPass = 25;
 
         public Config()
         {

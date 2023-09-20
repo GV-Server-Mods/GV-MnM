@@ -166,60 +166,70 @@ namespace AutoRepair
                             }
                             else
                             {
-                                // Find Block
-                                if (myActiveBlock == null)
+                                int checkedBlocks = 0;
+                                while (checkedBlocks < Session.Instance.config.zeroTimeBlocksPerPass)
                                 {
-                                    myActiveBlock = new ActiveBlock();
-                                    RepairErrors getBlockResult = myBlockSource.GetActiveBlock(myInventoryHelper, myActiveBlock);
-                                    if (getBlockResult == RepairErrors.None)
+                                    checkedBlocks++;
+                                    // Find Block
+                                    if (myActiveBlock == null)
                                     {
-                                        settings.BuildTimer = (int)myActiveBlock.myBuildTime;
-                                    }
-                                    else
-                                    {
-                                        results = getBlockResult;
-                                        myActiveBlock = null;
-                                        myHasCompletedConstruction = true;
-                                        ConstructionReset();
-                                    }
-                                }
-                                else
-                                {
-                                    bool hasComponents = false;
-                                    if (!myActiveBlock.IsValid())
-                                        throw new Exception(" !myActiveBlock.IsValid() ");
-
-                                    // Note: Someone may have hand welded the block while the build timer was going so we need to update our missing components.
-                                    myActiveBlock.UpdateMissingComponents();
-                                    // Optimization: We try and use the original inventories we found our needed components to avoid a secondary query.
-                                    hasComponents = myInventoryHelper.DoInventoriesContainMissingComponents(myActiveBlock.myMissingComponents, myActiveBlock.myInventories);
-                                    if (!hasComponents)
-                                    {
-                                        // Recovery: We didn't have what we needed in our cached inventories and since our inventory checks are destructive,
-                                        // we need to get missing components *again* and do a full search. Might be worth using a scratchpad / copy here.
-                                        myActiveBlock.UpdateMissingComponents();
-                                        hasComponents = myInventoryHelper.GetInventoriesContainingMissingComponents(Projector.CubeGrid, myActiveBlock.myMissingComponents, myActiveBlock.myInventories);
-                                    }
-
-                                    if (hasComponents)
-                                    {
-                                        switch (myActiveBlock.myBlockToConstruct.myConstructType)
+                                        myActiveBlock = new ActiveBlock();
+                                        RepairErrors getBlockResult = myBlockSource.GetActiveBlock(myInventoryHelper, myActiveBlock);
+                                        if (getBlockResult == RepairErrors.None)
                                         {
-                                            case ConstructType.Build:
-//                                                MyLog.Default.WriteLineAndConsole($"M&M MoveAndBuild ActiveBlock {myActiveBlock.myBlockToConstruct.myBlock.BlockDefinition.DisplayNameText}");
-                                                MoveAndBuild(myActiveBlock);
-                                                myActiveBlock = null;
-                                                break;
-                                            case ConstructType.Repair:
-//                                                MyLog.Default.WriteLineAndConsole($"M&M MoveAndRepair ActiveBlock {myActiveBlock.myBlockToConstruct.myBlock.BlockDefinition.DisplayNameText}");
-                                                MoveAndRepair(myActiveBlock);
-                                                myActiveBlock = null;
-                                                break;
+                                            settings.BuildTimer = (int)myActiveBlock.myBuildTime;
+                                        }
+                                        else
+                                        {
+                                            results = getBlockResult;
+                                            myActiveBlock = null;
+                                            myHasCompletedConstruction = true;
+                                            ConstructionReset();
+                                            break;
                                         }
                                     }
-                                    else
+                                    if (settings.BuildTimer > 0) {
+//                                      MyLog.Default.WriteLineAndConsole($"M&M Breaking due to build wait");
+                                        break;
+                                    }
+                                    if (myActiveBlock != null)
                                     {
-                                        myActiveBlock = null;
+                                        bool hasComponents = false;
+                                        if (!myActiveBlock.IsValid())
+                                            throw new Exception(" !myActiveBlock.IsValid() ");
+
+                                        // Note: Someone may have hand welded the block while the build timer was going so we need to update our missing components.
+                                        myActiveBlock.UpdateMissingComponents();
+                                        // Optimization: We try and use the original inventories we found our needed components to avoid a secondary query.
+                                        hasComponents = myInventoryHelper.DoInventoriesContainMissingComponents(myActiveBlock.myMissingComponents, myActiveBlock.myInventories);
+                                        if (!hasComponents)
+                                        {
+                                            // Recovery: We didn't have what we needed in our cached inventories and since our inventory checks are destructive,
+                                            // we need to get missing components *again* and do a full search. Might be worth using a scratchpad / copy here.
+                                            myActiveBlock.UpdateMissingComponents();
+                                            hasComponents = myInventoryHelper.GetInventoriesContainingMissingComponents(Projector.CubeGrid, myActiveBlock.myMissingComponents, myActiveBlock.myInventories);
+                                        }
+
+                                        if (hasComponents)
+                                        {
+                                            switch (myActiveBlock.myBlockToConstruct.myConstructType)
+                                            {
+                                                case ConstructType.Build:
+//                                                    MyLog.Default.WriteLineAndConsole($"M&M MoveAndBuild ActiveBlock {myActiveBlock.myBlockToConstruct.myBlock.BlockDefinition.DisplayNameText}");
+                                                    MoveAndBuild(myActiveBlock);
+                                                    myActiveBlock = null;
+                                                    break;
+                                            case ConstructType.Repair:
+//                                                    MyLog.Default.WriteLineAndConsole($"M&M MoveAndRepair ActiveBlock {myActiveBlock.myBlockToConstruct.myBlock.BlockDefinition.DisplayNameText}");
+                                                    MoveAndRepair(myActiveBlock);
+                                                    myActiveBlock = null;
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            myActiveBlock = null;
+                                        }
                                     }
                                 }
                             }
@@ -233,7 +243,6 @@ namespace AutoRepair
             {
                 MyLog.Default.WriteLineAndConsole($"M&M UpdateBeforeSimulation10 Exception: {ex}");
             }
-
         }
 
         public override void UpdateBeforeSimulation100()
