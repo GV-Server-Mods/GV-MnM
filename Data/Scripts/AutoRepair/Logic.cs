@@ -70,6 +70,8 @@ namespace AutoRepair
         public List<IMySlimBlock> myBuiltRatioScratchpad = new List<IMySlimBlock>();
         public List<IMyCubeGrid> myGridGroupScratchpad = new List<IMyCubeGrid>();
 
+        private int retryCount = 0;
+
         private bool myHasRunConstructionInit;
         private bool myHasCompletedConstruction;
         private Settings mySettingsAtConstructionTime;
@@ -177,10 +179,18 @@ namespace AutoRepair
                                         RepairErrors getBlockResult = myBlockSource.GetActiveBlock(myInventoryHelper, myActiveBlock);
                                         if (getBlockResult == RepairErrors.None)
                                         {
+                                            retryCount = 0;
                                             settings.BuildTimer = (int)myActiveBlock.myBuildTime;
                                         }
                                         else
                                         {
+                                            if (++retryCount < 4)
+                                            {
+                                                // MyLog.Default.WriteLineAndConsole($"M&M retrying ({retryCount}) {myActiveBlock?.myBlockToConstruct?.myBlock?.BlockDefinition?.DisplayNameText}");
+                                                myActiveBlock = null;
+                                                return;
+                                            }
+
                                             results = getBlockResult;
                                             myActiveBlock = null;
                                             myHasCompletedConstruction = true;
@@ -683,6 +693,8 @@ namespace AutoRepair
             myActiveBlock = null;
             myBlockSource = null;
             settings.BuildTimer = 0;
+
+            retryCount = 0;
 
             if (doResetActivated)
             {
