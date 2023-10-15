@@ -502,16 +502,16 @@ namespace AutoRepair
                 }
             }
 
-            if (myFoundBlocks.Count > 0)
-            {
-                StringBuilder builder = new StringBuilder();
-                builder.AppendLine("M&M GetBlock Failed w/Remaining:");
-                foreach (var block in myFoundBlocks)
-                {
-                    builder.AppendLine($"{block.myBlock.BlockDefinition.DisplayNameText}");
-                }
-                MyLog.Default.WriteLineAndConsole(builder.ToString());
-            }
+            //if (myFoundBlocks.Count > 0)
+            //{
+            //    StringBuilder builder = new StringBuilder();
+            //    builder.AppendLine("M&M GetBlock Failed w/Remaining:");
+            //    foreach (var block in myFoundBlocks)
+            //    {
+            //        builder.AppendLine($"{block.myBlock.BlockDefinition.DisplayNameText}");
+            //    }
+            //    MyLog.Default.WriteLineAndConsole(builder.ToString());
+            //}
 
             // We looped all the way around. We are out of blocks at this time.
             return myFoundBlocks.Count > 0 ? RepairErrors.Missing_Components : RepairErrors.Completed;

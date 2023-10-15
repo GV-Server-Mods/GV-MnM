@@ -188,6 +188,7 @@ namespace AutoRepair
                                             {
                                                 // MyLog.Default.WriteLineAndConsole($"M&M retrying ({retryCount}) {myActiveBlock?.myBlockToConstruct?.myBlock?.BlockDefinition?.DisplayNameText}");
                                                 myActiveBlock = null;
+                                                SetDetailInfo();
                                                 return;
                                             }
 
