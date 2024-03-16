@@ -724,7 +724,7 @@ namespace AutoRepair
         {
             myDetailBuilder.Clear();
 
-            myDetailBuilder.AppendLine($"\n[ M&M Info w/{MGPAdapter.LogVersionShort()} ]:");
+            myDetailBuilder.AppendLine($"\n M&M Info w/{MGPAdapter.LogVersionShort()} :");
 
             if (!settings.Enabled)
             {
@@ -733,9 +733,9 @@ namespace AutoRepair
             else
             {
                 if (settings.TokenTimer > 0 && settings.BoostEnabled)
-                    myDetailBuilder.AppendLine($" Boost [ON] | Remaining: {TimeSpan.FromSeconds(settings.TokenTimer)}");
+                    myDetailBuilder.AppendLine($" Boost ON | Remaining: {TimeSpan.FromSeconds(settings.TokenTimer)}");
                 else
-                    myDetailBuilder.AppendLine($" Boost [OFF] | Remaining: {TimeSpan.FromSeconds(settings.TokenTimer)}");
+                    myDetailBuilder.AppendLine($" Boost OFF | Remaining: {TimeSpan.FromSeconds(settings.TokenTimer)}");
 
                 if (settings.Activated && !myHasCompletedConstruction)
                 {
