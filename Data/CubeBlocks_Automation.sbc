@@ -6,9 +6,9 @@
         <TypeId>MyObjectBuilder_Projector</TypeId>
         <SubtypeId>MnMLarge</SubtypeId>
       </Id>
-      <DisplayName>Manufacturing and Maintenance Projector Lg</DisplayName>
-      <Icon>Textures\Icons\MnMProjector.dds</Icon>
-      <Description>Will auto repair/build ships</Description>
+      <DisplayName>MnM Projector</DisplayName>
+      <Icon>Textures\Icons\MnMIcon.dds</Icon>
+      <Description>Manufacturing and Maintenence Advanced Projector for auto build and repair using components from any connected cargo.</Description>
       <CubeSize>Large</CubeSize>
       <BlockTopology>TriangleMesh</BlockTopology>
       <Size x="1" y="1" z="1" />
@@ -20,7 +20,7 @@
         <Component Subtype="LargeTube" Count="2" />
         <Component Subtype="Motor" Count="1" />
         <Component Subtype="Computer" Count="2" />
-        <Component Subtype="SteelPlate" Count="10" />
+        <Component Subtype="SteelPlate" Count="25" />
       </Components>
       <CriticalComponent Subtype="Computer" Index="0" />
       <MountPoints>
@@ -58,9 +58,9 @@
         <TypeId>MyObjectBuilder_Projector</TypeId>
         <SubtypeId>MnMSmall</SubtypeId>
       </Id>
-      <DisplayName>Manufacturing and Maintenance Projector Sml</DisplayName>
-      <Icon>Textures\Icons\MnMProjector.dds</Icon>
-      <Description>Will auto repair/build ships</Description>
+      <DisplayName>MnM Projector</DisplayName>
+      <Icon>Textures\Icons\MnMIcon.dds</Icon>
+      <Description>Manufacturing and Maintenence Advanced Projector for auto build and repair using components from any connected cargo.</Description>
       <CubeSize>Small</CubeSize>
       <BlockTopology>TriangleMesh</BlockTopology>
       <Size x="1" y="1" z="1" />
@@ -72,7 +72,7 @@
         <Component Subtype="LargeTube" Count="2" />
         <Component Subtype="Motor" Count="1" />
         <Component Subtype="Computer" Count="2" />
-        <Component Subtype="SteelPlate" Count="1" />
+        <Component Subtype="SteelPlate" Count="5" />
       </Components>
       <CriticalComponent Subtype="Computer" Index="0" />
       <MountPoints>
