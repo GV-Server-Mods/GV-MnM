@@ -4,7 +4,7 @@ MnM Projector (Manufacturing and Maintenance) for the GV servers: an advanced pr
 
 ## Build
 
-MDK2 mod project. Scripts are in `ModScripts/`, SBC and textures in `Content/`. Build `GV_MnM.csproj` to deploy to `%AppData%\SpaceEngineers\Mods\GV_MnM`. Keep `modinfo.sbmi` in that deploy folder so publishing updates the existing Workshop item.
+MDK2 mod project. Scripts are in `ModScripts/`, SBC and textures in `Content/`. Build `AutoRepair.csproj` to deploy to `%AppData%\SpaceEngineers\Mods\AutoRepair`. Keep `modinfo.sbmi` in that deploy folder so publishing updates the existing Workshop item.
 
 ## Issues
 
